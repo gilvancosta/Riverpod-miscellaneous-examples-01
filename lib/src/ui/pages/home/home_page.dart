@@ -3,52 +3,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'controller/home_controller.dart';
+class CounterNotifier extends StateNotifier<int> {
+  CounterNotifier() : super(0);
 
-//final counterProvider = StateProvider<int>((ref) => 0);
-//final contador = StateProvider((ref) => 0);
+  void increment() => state++;
+  void decrement() => state++;
+}
+
+final counterNotifierProvider =
+    StateNotifierProvider<CounterNotifier, int>((ref) => CounterNotifier());
+
 class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeController = ref.watch(counterProvider);
-
-    print('BUILDING HOME PAGE 2');
-
+    print('BUILDING HOME PAGE');
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Contador Riverpod'),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Número atual:',
-              style: TextStyle(fontSize: 20),
-            ),
+          children: [
+            const Text('Counter value: '),
             Consumer(
-              builder: (context, watch, _) {
-                return Text(
-                  '${homeController.counter}', // watch(contador).value.toString(),
-                  style: const TextStyle(fontSize: 40),
-                );
+              builder: (contexto, refLocal, _) {
+                final counter = refLocal.watch(counterNotifierProvider);
+                return Text('$counter');
               },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 FloatingActionButton(
-                  onPressed: () {
-                    homeController.increment();
-                  },
+                  onPressed:
+                      ref.read(counterNotifierProvider.notifier).increment,
                   child: const Icon(Icons.add),
                 ),
                 FloatingActionButton(
-                  onPressed: () {
-                    homeController.decrement();
-                  },
+                  onPressed:
+                      ref.read(counterNotifierProvider.notifier).decrement,
                   child: const Icon(Icons.remove),
                 ),
               ],
