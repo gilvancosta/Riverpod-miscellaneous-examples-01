@@ -12,7 +12,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeController = ref.read(counterProvider);
+    // final homeController = ref.read(counterProvider);
 
     print('BUILDING HOME PAGE 2');
 
@@ -29,10 +29,10 @@ class HomePage extends ConsumerWidget {
               style: TextStyle(fontSize: 20),
             ),
             Consumer(
-              builder: (context, ref, _) {
-                final counter = ref.watch(counterProvider);
+              builder: (context, refLocal, _) {
+                final counter = refLocal.watch(counterProvider);
                 return Text(
-                  '${counter.counter}', // watch(contador).value.toString(),
+                  counter.toString(), // watch(contador).value.toString(),
                   style: const TextStyle(fontSize: 40),
                 );
               },
@@ -42,13 +42,16 @@ class HomePage extends ConsumerWidget {
               children: <Widget>[
                 FloatingActionButton(
                   onPressed: () {
-                    homeController.increment();
+                    ref.read(counterProvider.notifier).increaseByOne();
+
+
+       
                   },
                   child: const Icon(Icons.add),
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    homeController.decrement();
+                    //  homeController.decrement();
                   },
                   child: const Icon(Icons.remove),
                 ),

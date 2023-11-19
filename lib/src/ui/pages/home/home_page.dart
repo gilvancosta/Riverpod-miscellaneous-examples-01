@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final counterProvider = StateProvider((ref) => 0);
+import 'controller/home_controller.dart';
 
 // ConsumerWidget substitui StatelessWidget para adicionar o parâmetro ref
 // no método de construção
@@ -27,12 +27,30 @@ class HomePage extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-// altera o estado do counterProvider por
-// acessando o StateNotifier diretamente.
-// Riverpod notificará automaticamente os ouvintes.
-        onPressed: () => ref.read(counterProvider.notifier).state++,
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            FloatingActionButton(
+              // altera o estado do counterProvider por
+              // acessando o StateNotifier diretamente.
+              // Riverpod notificará automaticamente os ouvintes.
+              onPressed: () {
+                ref.read(counterProvider.notifier).decreaseByOne();
+              },
+              child: const Icon(Icons.remove),
+            ),
+            FloatingActionButton(
+              // altera o estado do counterProvider por
+              // acessando o StateNotifier diretamente.
+              // Riverpod notificará automaticamente os ouvintes.
+              onPressed: () {
+                ref.read(counterProvider.notifier).increaseByOne();
+              },
+              child: const Icon(Icons.add),
+            ),
+          ],
+        ),
       ),
     );
   }

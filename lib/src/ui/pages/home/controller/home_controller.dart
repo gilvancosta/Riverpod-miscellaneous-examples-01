@@ -1,23 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final counterProvider = ChangeNotifierProvider<HomeController>((ref) => HomeController());
+part 'home_controller.g.dart';
 
-class HomeController with ChangeNotifier{
 
-  int _counter = 0;
+@Riverpod(keepAlive: true)
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
 
- 
-  int get counter => _counter;
-
-  void increment(){
-    _counter++;
-    notifyListeners();
+  void increaseByOne() {
+    state++;
   }
 
-  void decrement(){
-    _counter--;
-    notifyListeners();
+  void decreaseByOne() {
+    state--;
   }
-  
 }
